@@ -1,54 +1,54 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import useModalStore from "../store/modal";
+import ViteButton from "./ViteButton";
+import ViteH1 from "./text/ViteH1";
+import ViteH2 from "./text/ViteH2";
+import ViteInput from "./ViteInput";
+import ViteIcon from "./ViteIcon";
+import { ConvertHelper } from "../helpers/convert";
+import { LabelTypes } from "../enums/LabelTypes";
+import { Modal } from "../types/Modal";
 
-export default function ViteModal() {
-  let [isOpen, setIsOpen] = useState(true);
-  function closeModal() {
-    setIsOpen(false);
-  }
+export default function ViteModal(props: { modal: Modal }) {
+  const { inputs } = useModalStore();
+  const onClick = (clickedButton: string) => {
+    //@ts-ignore
+    window.returnValue = {
+      inputs: inputs,
+      clickedButton: clickedButton,
+    };
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
+    window.close();
+  };
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="absolute z-10" onClose={closeModal}>
-        <Transition.Child as={Fragment}>
-          <div className="fixed inset-0" />
-        </Transition.Child>
+    <div className="w-screen h-screen absoulte bg-white text-left">
+      <div className="p-4">
+        <div>
+          <ViteIcon type={ConvertHelper.getIconType(props.modal.icon)} />
+          <div className="mt-3 text-center sm:mt-5">
+            {props.modal.labels.map((label: { text: string; type: string }) => {
+              const _type = ConvertHelper.getLabelType(label.type);
+              if (_type === LabelTypes.H1) return <ViteH1 text={label.text} />;
+              return <ViteH2 text={label.text} />;
+            })}
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex h-full items-center justify-center text-center">
-            <Transition.Child as={Fragment}>
-              <Dialog.Panel className="w-full  h-full transform overflow-hidden  bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  Payment successful
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={closeModal}
-                  >
-                    Got it, thanks!
-                  </button>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
+            {props.modal.inputs.map((input: { id: string; label: string }) => (
+              <ViteInput id={input.id} label={input.label} />
+            ))}
           </div>
         </div>
-      </Dialog>
-    </Transition>
+        <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+          {props.modal.buttons.map(
+            (button: { id: string; label: string; type: string }) => (
+              <ViteButton
+                id={button.id}
+                label={button.label}
+                type={button.type}
+                onClick={onClick}
+              />
+            )
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
