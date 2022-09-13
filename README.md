@@ -89,7 +89,7 @@
   let pageInput: Xrm.Navigation.PageInputHtmlWebResource = {
     pageType: "webresource",
     webresourceName: "vite_/viteapps/pages/modals.html",
-    data: JSON.stringify(modalObject),
+    data: JSON.stringify(modalJsonObject), //modalJsonObject, pass your json object here
   };
   let navigationOptions: Xrm.Navigation.NavigationOptions = {
     target: 2, // 2 is for opening the page as a dialog.
