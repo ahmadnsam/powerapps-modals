@@ -62,7 +62,7 @@ export default function ViteModal(props: { modal: Modal }) {
                 }
               )}
 
-              {props.modal.inputs.map((input: Input) => getInput(input))}
+              {props.modal.inputs?.map((input: Input) => getInput(input))}
             </>
           </div>
         </div>
