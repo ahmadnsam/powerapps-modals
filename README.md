@@ -1,5 +1,7 @@
 # powerapps-modals
 
+#### [Documentation](https://viteapps.dev/series/powerapps-modals) | [Roadmap](https://viteapps.notion.site/Roadmap-9bb94375a6a84ec781aa803a52bc4ae0) 
+
 ![image](https://user-images.githubusercontent.com/83499142/189826069-0664ee76-7e94-4a7c-bc00-0976347fe543.png)
 
 # Turn JSON into modals
