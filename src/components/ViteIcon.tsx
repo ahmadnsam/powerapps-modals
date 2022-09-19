@@ -1,5 +1,8 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  ExclamationTriangleIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/24/outline";
 import { IconTypes } from "../enums/IconTypes";
 export default function ViteIcon(props: any) {
   const icon = (type: IconTypes) => {
@@ -13,7 +16,7 @@ export default function ViteIcon(props: any) {
       case IconTypes.Error:
         return (
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-            <ExclamationTriangleIcon
+            <ExclamationCircleIcon
               className="h-6 w-6 text-red-600"
               aria-hidden="true"
             />
