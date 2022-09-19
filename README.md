@@ -1,5 +1,7 @@
 # powerapps-modals
 
+## Go to [Documentation](https://viteapps.dev/series/powerapps-modals)
+
 ![image](https://user-images.githubusercontent.com/83499142/189826069-0664ee76-7e94-4a7c-bc00-0976347fe543.png)
 
 # Turn JSON into modals
