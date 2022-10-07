@@ -13,7 +13,7 @@ import { Input } from "../types/Input";
 import ViteChoices from "./ViteChoices";
 
 export default function ViteModal(props: { modal: Modal }) {
-  const { inputs } = useModalStore();
+  const { modal, inputs, setModal, setError } = useModalStore();
   const getInput = (input: Input) => {
     switch (ConvertHelper.getInputType(input.type as string)) {
       case InputTypes.Radio:
@@ -22,6 +22,9 @@ export default function ViteModal(props: { modal: Modal }) {
             id={input.id}
             label={input.label}
             options={input.options}
+            error={input.error}
+            errorMessage={input.errorMessage}
+            required={input.required}
           />
         );
       case InputTypes.DropDown:
@@ -31,10 +34,21 @@ export default function ViteModal(props: { modal: Modal }) {
             label={input.label}
             options={input.options}
             multi={input.multi}
+            error={input.error}
+            required={input.required}
+            errorMessage={input.errorMessage}
           />
         );
       default:
-        return <ViteInput id={input.id} label={input.label} />;
+        return (
+          <ViteInput
+            id={input.id}
+            label={input.label}
+            error={input.error}
+            required={input.required}
+            errorMessage={input.errorMessage}
+          />
+        );
     }
   };
   const onClick = (clickedButton: string) => {
@@ -43,7 +57,22 @@ export default function ViteModal(props: { modal: Modal }) {
       inputs: inputs,
       clickedButton: clickedButton,
     };
-
+    if (modal.inputs) {
+      let requiredInputs = modal.inputs.filter((x) => x.required);
+      let err = false;
+      for (let i = 0; i < requiredInputs?.length; i++) {
+        let _input = requiredInputs[i];
+        if (!inputs[_input.id]) {
+          err = true;
+          setError(_input.id, true);
+        } else {
+          setError(_input.id, false);
+        }
+      }
+      if (err) {
+        return;
+      }
+    }
     window.close();
   };
   return (

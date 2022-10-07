@@ -11,4 +11,7 @@ export class StyleHelper {
         return "border-transparent bg-red-600 text-white  hover:bg-red-700 focus:ring-red-500";
     }
   };
+  static classNames = (...classes: (string | boolean)[]) => {
+    return classes.filter(Boolean).join(" ");
+  };
 }
