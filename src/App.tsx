@@ -1,7 +1,8 @@
 import "./styles/pamodals.styles.vite.css";
 import ViteModal from "./components/ViteModal";
-import { useEffect, useState } from "react";
-import { Modal } from "./types/Modal";
+import { useEffect } from "react";
+import useModalStore from "./store/modal";
+
 function getDataParam() {
   var vals = new Array();
   if (location.search != "") {
@@ -18,12 +19,7 @@ function getDataParam() {
 }
 
 function App() {
-  const [modal, setModal] = useState<Modal>({
-    icon: "",
-    labels: [],
-    inputs: [],
-    buttons: [],
-  });
+  const { modal, setModal } = useModalStore();
   useEffect(() => {
     setModal(getDataParam());
   }, []);
