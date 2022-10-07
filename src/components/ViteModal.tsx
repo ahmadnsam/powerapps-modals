@@ -13,7 +13,7 @@ import { Input } from "../types/Input";
 import ViteChoices from "./ViteChoices";
 
 export default function ViteModal(props: { modal: Modal }) {
-  const { modal, inputs, setModal, setError } = useModalStore();
+  const { modal, inputs, setError } = useModalStore();
   const getInput = (input: Input) => {
     switch (ConvertHelper.getInputType(input.type as string)) {
       case InputTypes.Radio:
@@ -51,7 +51,8 @@ export default function ViteModal(props: { modal: Modal }) {
         );
     }
   };
-  const onClick = (clickedButton: string) => {
+  const onClick = (clickedButton: string, isCancel: boolean) => {
+    if (isCancel) window.close();
     //@ts-ignore
     window.returnValue = {
       inputs: inputs,
@@ -97,12 +98,18 @@ export default function ViteModal(props: { modal: Modal }) {
         </div>
         <div className="mt-6 grid grid-flow-row-dense grid-cols-2 gap-3">
           {props.modal.buttons.map(
-            (button: { id: string; label: string; type: string }) => (
+            (button: {
+              id: string;
+              label: string;
+              type: string;
+              cancel: boolean;
+            }) => (
               <ViteButton
                 id={button.id}
                 label={button.label}
                 type={button.type}
                 onClick={onClick}
+                isCancel={button.cancel}
               />
             )
           )}
