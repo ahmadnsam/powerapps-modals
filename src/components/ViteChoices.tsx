@@ -7,35 +7,41 @@ import useModalStore from "../store/modal";
 export default function ViteChoices(props: any) {
   const { inputs, set } = useModalStore();
   const [query, setQuery] = useState("");
+  const { id, label, options, multi, error, required, errorMessage } = props;
 
   const filteredOptions =
     query === ""
-      ? props.options
-      : props.options.filter((option: any) => {
+      ? options
+      : options.filter((option: any) => {
           return option.label.toLowerCase().includes(query.toLowerCase());
         });
   return (
     <Combobox
       className="mt-2"
       as="div"
-      value={inputs[props.id]}
-      onChange={(value: any) => set(props.id, value.id)}
+      multiple={multi}
+      value={inputs[id] ?? []}
+      onChange={(value: any) => {
+        if (multi) set(id, value);
+        else set(id, value.id);
+      }}
     >
       <Combobox.Label className="text-left block text-sm font-medium text-gray-700">
-        {props.label}
+        {label}
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
           className={StyleHelper.classNames(
             "w-full rounded-md border  bg-white py-2 pl-3 pr-10 shadow-sm focus:outline-none focus:ring-1sm:text-sm",
-            props.error
+            error
               ? "border-red-900 focus:border-red-900 focus:ring-red-900"
               : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
           )}
           onChange={(event) => setQuery(event.target.value)}
-          displayValue={(option: any) =>
-            props.options.filter((x: any) => x.id === option)[0]?.label
-          }
+          displayValue={(option: any) => {
+            if (multi) return option.map((x: any) => x.label).join(", ");
+            else return options.filter((x: any) => x.id === option)[0]?.label;
+          }}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <ChevronUpDownIcon
@@ -85,9 +91,9 @@ export default function ViteChoices(props: any) {
           </Combobox.Options>
         )}
       </div>
-      {props.error && (
+      {error && (
         <p className=" text-left mt-2 text-sm text-red-900" id="email-error">
-          {props.errorMessage ?? "This field is required!"}
+          {errorMessage ?? "This field is required!"}
         </p>
       )}
     </Combobox>

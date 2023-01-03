@@ -102,7 +102,7 @@ export default function ViteModal(props: { modal: Modal }) {
               id: string;
               label: string;
               type: string;
-              cancel: boolean;
+              cancel?: boolean;
             }) => (
               <ViteButton
                 id={button.id}
