@@ -6,7 +6,7 @@ export type Input = {
   type?: string;
   multi?: boolean;
   options?: { id: string; label: string }[];
-  required: boolean;
+  required?: boolean;
   error?: boolean;
   errorMessage?: string;
 };
